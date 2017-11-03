@@ -9,18 +9,23 @@ public class charmove : MonoBehaviour
     Rigidbody2D rb;
     Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
     public GameObject playerObject;
-    public AudioClip snow;
-    public AudioClip hop;
-    public AudioClip[] sounds;
+    public GameObject groundObject;
+
+    public AudioClip snow; //sound effect 0 in array
+    public AudioClip hop; //sound effect 1 in array
+    public AudioClip levelend; //sound effect 3 in array
+
+    public AudioClip[] sounds; //array to hold sounds, sounds must be called by position in index
     public AudioSource intrusment;
     public bool isDoubleJump = true;
     public bool isOnGround = false;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // Get the rigidbody component added to the script and store it in rb
+        rb = GetComponent<Rigidbody2D>();
         startingPosition = transform.position;
     }
+
 
     public void Replay()
     {
@@ -29,10 +34,28 @@ public class charmove : MonoBehaviour
 
     void Update()
     {
-        var input = Input.GetAxis("Horizontal"); // This will give us left and right movement (from -1 to 1). 
+        var input = Input.GetAxis("Horizontal"); //left and right movement 
         var movement = input * walkspeed;
 
         rb.velocity = new Vector3(movement, rb.velocity.y, 0);
+
+       
+        //the following code ignores layer collisions between Character and PassThru (ground tiles in the PassThru label) when the player jumps
+        //NOTE: on ground tiles that have a larger height than player's current jump height, player will get stuck in the tile, so all PassThru tiles should be thin
+        Debug.Log(rb.velocity.y > 0);
+        //layer 10 is Platform, layer 11 is Character, layer 12 is PassThru
+        Debug.Log(Physics2D.GetIgnoreLayerCollision(11, 12));
+        if (rb.velocity.y > 0)
+        {
+            //note: ground tiles labelled PassThru are the only ones that can be jumped through with below code
+            Physics2D.IgnoreLayerCollision(11, 12, true);
+            Debug.Log("Pass through the platform!");
+        }
+        //if player falls from jumping, player can land on the platform instead of falling through
+        else
+        {
+            Physics2D.IgnoreLayerCollision(11, 12, false);
+        }
 
         //jump (press twice to double jump) with sound effect
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -40,21 +63,20 @@ public class charmove : MonoBehaviour
             if (isOnGround)
             {
                 isOnGround = false;
-                rb.AddForce(new Vector3(0, 300, 0)); // Adds 100 force straight up, might need tweaking on that number
+                rb.AddForce(new Vector3(0, 300, 0));
                 playsound(1);
             }
             {
                 if (isDoubleJump)
                 {
-                    rb.AddForce(new Vector3(0, 300, 0)); // Adds 100 force straight up, might need tweaking on that number
+                    rb.AddForce(new Vector3(0, 100, 0)); //adds a little more force to jump
                     playsound(1);
                 }
             }
-            //debug with rigidbody movement only
-
         }
 
         //slide (duck down and move left or right simultaneously) with momentum
+        /*
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             GetComponent<BoxCollider2D>().enabled = false; //disable top collider as long as down+L/R is active
@@ -65,6 +87,7 @@ public class charmove : MonoBehaviour
      
             playerObject.GetComponent<BoxCollider2D>().enabled = true;
         }
+        */
 
         //walk with sound effect
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -85,6 +108,15 @@ public class charmove : MonoBehaviour
         {
             isOnGround = true;
         }
-    }
 
+        //when player lands on a platform designating the end of a level
+        if (collision.gameObject.CompareTag("LevelEnd"))
+        {
+            //show new sprite "Level Complete" text on screen
+            LevelManager._instance.ReachDestination(collision.gameObject.name); //just need tagged name of the gameObject
+            isOnGround = true;
+            Debug.Log("You reached the end of the level");
+            playsound(2);
+        }
+    }
 }
