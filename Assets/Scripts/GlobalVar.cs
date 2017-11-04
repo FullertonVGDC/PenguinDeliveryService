@@ -26,9 +26,9 @@ namespace GlobalVar
     public struct EnvObject
     {
         public bool PassThrough;
-        public Transform location;
+        public Vector3 location;
 
-        public EnvObject(bool v, Transform platform) : this()
+        public EnvObject(bool v, Vector3 platform) : this()
         {
             PassThrough = v;
             location = platform;

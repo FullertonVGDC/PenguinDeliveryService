@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelSelectManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
-    public static LevelSelectManager _instance;
+    public static GameManager _instance;
     public int currentLevel;
+    public Animator animator;
+
+
 
     private void Awake()
     {
@@ -25,14 +28,27 @@ public class LevelSelectManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (SceneManager.GetActiveScene().name == "LevelSelectScene")
+        {
+            ControlLevelSelectSenece();
+        }
     }
+
+    private void ControlLevelSelectSenece()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("select level " + currentLevel);
+            animator.SetTrigger("transition");
+        }
+    }
+
     public void _GotoLevel()
     {
         SceneManager.LoadScene("GamePlayScene");
