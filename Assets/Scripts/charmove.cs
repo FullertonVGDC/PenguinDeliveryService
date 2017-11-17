@@ -6,8 +6,8 @@ public class charmove : MonoBehaviour
     public CharacterController controller;
     float walkspeed = 7;
     float slidespeed = 3;
-    Rigidbody2D rb;
-    Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
+    Rigidbody2D rigid;
+
     public GameObject playerObject;
     public GameObject groundObject;
 
@@ -22,8 +22,7 @@ public class charmove : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        startingPosition = transform.position;
+        rigid = GetComponent<Rigidbody2D>();
     }
 
 
@@ -37,15 +36,15 @@ public class charmove : MonoBehaviour
         var input = Input.GetAxis("Horizontal"); //left and right movement 
         var movement = input * walkspeed;
 
-        rb.velocity = new Vector3(movement, rb.velocity.y, 0);
+        rigid.velocity = new Vector3(movement, rigid.velocity.y, 0);
 
-       
+
         //the following code ignores layer collisions between Character and PassThru (ground tiles in the PassThru label) when the player jumps
         //NOTE: on ground tiles that have a larger height than player's current jump height, player will get stuck in the tile, so all PassThru tiles should be thin
-        Debug.Log(rb.velocity.y > 0);
+        Debug.Log(rigid.velocity.y > 0);
         //layer 10 is Platform, layer 11 is Character, layer 12 is PassThru
         Debug.Log(Physics2D.GetIgnoreLayerCollision(11, 12));
-        if (rb.velocity.y > 0)
+        if (rigid.velocity.y > 0)
         {
             //note: ground tiles labelled PassThru are the only ones that can be jumped through with below code
             Physics2D.IgnoreLayerCollision(11, 12, true);
@@ -63,13 +62,13 @@ public class charmove : MonoBehaviour
             if (isOnGround)
             {
                 isOnGround = false;
-                rb.AddForce(new Vector3(0, 300, 0));
+                rigid.AddForce(new Vector3(0, 300, 0));
                 playsound(1);
             }
             {
                 if (isDoubleJump)
                 {
-                    rb.AddForce(new Vector3(0, 100, 0)); //adds a little more force to jump
+                    rigid.AddForce(new Vector3(0, 100, 0)); //adds a little more force to jump
                     playsound(1);
                 }
             }

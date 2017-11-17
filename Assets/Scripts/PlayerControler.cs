@@ -6,6 +6,7 @@ public class PlayerControler : MonoBehaviour
     #region Data Member
     float walkspeed = 7;
     float slidespeed = 3;
+    public float jumpForce = 600;
     Rigidbody2D rigid;
     Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
     public GameObject playerObject;
@@ -14,6 +15,7 @@ public class PlayerControler : MonoBehaviour
     public bool isDoubleJump = true;
     bool isOnGround = false;
 
+
     #endregion
     #region Getter Setter
     #endregion
@@ -21,7 +23,7 @@ public class PlayerControler : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>(); // Get the rigidbody component added to the script and store it in rb
-        startingPosition = transform.position;
+
     }
     void Update()
     {
@@ -29,16 +31,20 @@ public class PlayerControler : MonoBehaviour
         //jump (press twice to double jump) with sound effect
         Jump();
 
-        //slide (duck down and move left or right simultaneously) with momentum
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (rigid.velocity.y > 0)
         {
-            GetComponent<BoxCollider2D>().enabled = false; //disable top collider as long as down+L/R is active
-                                                           //player should be able to walk under low areas
+            Debug.Log("pass through");
+            //note: ground tiles labelled PassThru are the only ones that can be jumped through with below code
+            Physics2D.IgnoreLayerCollision(11, 12, true);
         }
+        //if player falls from jumping, player can land on the platform instead of falling through
         else
         {
-            playerObject.GetComponent<BoxCollider2D>().enabled = true;
+            Physics2D.IgnoreLayerCollision(11, 12, false);
         }
+
+        //slide (duck down and move left or right simultaneously) with momentum
+
 
         //walk with sound effect
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -49,9 +55,19 @@ public class PlayerControler : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("PassThru"))
         {
             isOnGround = true;
+        }
+
+        //when player lands on a platform designating the end of a level
+        if (collision.gameObject.CompareTag("LevelEnd"))
+        {
+            //show new sprite "Level Complete" text on screen
+            LevelManager._instance.ReachDestination(collision.gameObject.name); //just need tagged name of the gameObject
+            isOnGround = true;
+            Debug.Log("You reached the end of the level");
+            playsound(2);
         }
     }
     #endregion
@@ -71,13 +87,13 @@ public class PlayerControler : MonoBehaviour
             if (isOnGround)
             {
                 isOnGround = false;
-                rigid.AddForce(new Vector3(0, 300, 0)); // Adds 100 force straight up, might need tweaking on that number
+                rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
                 playsound(1);
             }
             {
                 if (isDoubleJump)
                 {
-                    rigid.AddForce(new Vector3(0, 300, 0)); // Adds 100 force straight up, might need tweaking on that number
+                    rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
                     playsound(1);
                 }
             }

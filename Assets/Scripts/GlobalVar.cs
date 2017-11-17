@@ -25,13 +25,19 @@ namespace GlobalVar
     [Serializable]
     public struct EnvObject
     {
-        public bool PassThrough;
+        public int type;
         public Vector3 location;
 
-        public EnvObject(bool v, Vector3 platform) : this()
+        public Quaternion rotation;
+
+        public Vector3 scale;
+
+        public EnvObject(int v, Vector3 platform, Quaternion rot, Vector3 sca) : this()
         {
-            PassThrough = v;
+            type = v;
             location = platform;
+            rotation = rot;
+            scale = sca;
         }
     }
 }
