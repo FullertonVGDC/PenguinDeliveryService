@@ -46,7 +46,5 @@ public class enviromentObject {
     }
 }
 // look to chart. need to pass Enviro objects through this before we cast to json
-public class EnvBluePrint{
 
-}
 
