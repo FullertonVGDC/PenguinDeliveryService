@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour {
         writer.Close ();
     }
 
-    private void SetupLevel (EnvBluePrint newLevel) {
+    public void SetupLevel (EnvBluePrint newLevel) {
         string path = "Assets/StreamingAssets/test.json";
         StreamReader reader = new StreamReader (path);
         // Debug.Log(reader.ReadToEnd());
