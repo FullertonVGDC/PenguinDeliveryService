@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.IO;
+
+public class Entrance : MonoBehaviour
+{
+<<<<<<< HEAD:Assets/Scripts/LevelSelect/LevelSelectManager.cs
+       // go to the level // scene
+    public void _GotoLevel(){
+        SceneManager.LoadScene("GamePlayScene");
+    }
+}
+
+
+=======
+
+    public string LevelEntrance;
+    public int level;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            GameManager._instance.currentLevel = level;
+            //   SceneManager.LoadScene(LevelEntrance);
+        }
+    }
+
+}
+
+>>>>>>> enemy:Assets/Scripts/Entrance.cs
