@@ -23,7 +23,7 @@ Art should be put into the Google Drive, which will then be put into the assets 
 ## Short guide to git branch
 Create a new branch and switch to that branch
 
-<code>git branch "branch name"</code> 
+<code>git branch "branch name"</code>  
 <code>git checkout "branch name"</code>
 
 Make some changes to the file and commit the changes
