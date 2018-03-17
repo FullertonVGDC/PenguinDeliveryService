@@ -10,7 +10,7 @@ There is [a tutorial](https://try.github.io) on how to use Github for those who 
 There are [several tutorials](https://unity3d.com/learn/tutorials) on Unity for those who are interested.
 
 ## Notice
-When working on PDS, please do not change anything in the master branch. Create a new branch and add your changes to the new branch. Notify the Programming channel on Discord and a programming lead will check and merge your work into the master branch as necessary.
+When working on PDS, please do not change anything in the master branch. Create a new branch and add your changes to the new branch. Notify the Programming channel on Discord and a programming lead will check and merge your work into the master branch as necessary.  
 Art should be put into the Google Drive, which will then be put into the assets folder by a programming lead.
 
 ## How to clone this repository
@@ -23,8 +23,7 @@ Art should be put into the Google Drive, which will then be put into the assets 
 ## Short guide to git branch
 Create a new branch and switch to that branch
 
-<code>git branch "branch name"
-  
+<code>git branch "branch name"  
 git checkout "branch name"</code>
 
 Make some changes to the file and commit the changes
