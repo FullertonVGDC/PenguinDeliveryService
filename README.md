@@ -24,6 +24,7 @@ Art should be put into the Google Drive, which will then be put into the assets 
 Create a new branch and switch to that branch
 
 <code>git branch "branch name"  
+
 git checkout "branch name"</code>
 
 Make some changes to the file and commit the changes
