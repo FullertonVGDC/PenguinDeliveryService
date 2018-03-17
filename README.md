@@ -14,8 +14,8 @@ When working on PDS, please do not change anything in the master branch. Create 
 Art should be put into the Google Drive, which will then be put into the assets folder by a programming lead.
 
 ## How to clone this repository
-1. Have git installed on your computer.
-2. Open your command line.
+1. [Have git installed](https://git-scm.com/downloads) on your computer.
+2. Open your chosen command line or git client.
 3. Use the command <code>cd "Folder name"</code> to move to your chosen directory.
 4. When in your chosen folder, use <code>git clone https://github.com/FullertonVGDC/PenguinDeliveryService.git</code> to clone the repository.
 4. Move into the new PenguinDeliveryService folder and create a new branch to keep the master branch clean.
