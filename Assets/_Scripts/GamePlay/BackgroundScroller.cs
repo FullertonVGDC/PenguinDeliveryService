@@ -8,7 +8,7 @@ public class BackgroundScroller : MonoBehaviour {
 
     private Transform cameraTransform;
     private Transform[] layers;
-    private float viewzone = 10;
+    //private float viewzone = 10;
     private int leftIndex;
     private int rightIndex;
 
@@ -25,8 +25,7 @@ public class BackgroundScroller : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    private void Update()
-    {
+    private void Update() {
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
             ScrollLeft();

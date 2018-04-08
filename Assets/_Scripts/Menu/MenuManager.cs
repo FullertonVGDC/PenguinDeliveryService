@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour {
                 Application.Quit();
                 break;
             case 1:
-                SceneManager.LoadScene("WorkingEnemy");
+                SceneManager.LoadScene("LevelOneScene");
                 break;
             default:
                 break;

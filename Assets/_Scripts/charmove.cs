@@ -5,7 +5,7 @@ public class charmove : MonoBehaviour
 {
     public CharacterController controller;
     float walkspeed = 7;
-    float slidespeed = 3;
+    //float slidespeed = 3;
     Rigidbody2D rigid;
 
     public GameObject playerObject;
