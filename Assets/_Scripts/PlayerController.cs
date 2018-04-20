@@ -1,25 +1,25 @@
-﻿using UnityEngine;
+﻿sing UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	#region Data Member
 	
 	// bool dead = false;
+	// public float slidespeed = 3;
+	// int max_hp = 100;
+	// int damage;
+	// int hp;
+	// public Collider2D playerCollider;
 	bool isOnGround = false;
-	//int current_hp = 100;
-	//int damage;
-	//int hp;
-	public AudioClip jumpSound;
+	public AudioClip[] jumpSound;
 	public AudioSource instrument;
 	public bool isDoubleJump = true;
-	//public Collider2D playerCollider;
 	public float jumpForce = 600;
-	// public float slidespeed = 3;
 	public float walkspeed = 7;
 	public GameObject playerObject;
 	
 	Rigidbody2D rigid;
-	Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
+	// Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
 
 	#endregion
 
@@ -33,14 +33,10 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		rigid = GetComponent<Rigidbody2D>(); // Get the rigidbody component added to the script and store it in rb
 
-		//playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
-
-		// hp = current_hp;
-
+		// hp = max_hp;
+		// damage = 0
 		// startingPosition = transform.position;
 		
-		// damage = 0;
-
 	}
 
 	void Update() {
@@ -48,10 +44,9 @@ public class PlayerController : MonoBehaviour {
 		// 	respawn();
 		// }
 
-
 		Walk();
-		//jump (press twice to double jump) with sound effect
-		Jump();
+		
+		Jump(); //jump (press twice to double jump) with sound effect
 
 		if (rigid.velocity.y > 0) {
 			Debug.Log("pass through");
@@ -65,11 +60,10 @@ public class PlayerController : MonoBehaviour {
 
 		//slide (duck down and move left or right simultaneously) with momentum
 
-
 		//walk with sound effect
-		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) {
-			// playsound();
-		}
+		// if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			// playsound(0);
+		// }
 
 		// check if your character fell off the platform
 		if( transform.position.y < -20) {
@@ -96,10 +90,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private void OnTriggerEnter(Collider collision) {
-		
-	}
-
 	#endregion
 	#region Public Method
 	#endregion
@@ -114,14 +104,12 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			if (isOnGround) {
 				isOnGround = false;
-				isDoubleJump = true; //Pegu can dbljump if he's on ground
 				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-				playsound();
+				playsound(0);
 			}
 			if (isDoubleJump) {
-				isDoubleJump = false; //2 jumps only
 				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-				playsound();
+				playsound(0);
 			}
 		}
 	}
@@ -132,12 +120,11 @@ public class PlayerController : MonoBehaviour {
 		temp.y = 1.04f; 
 		transform.position = temp; // and save the modified value
 		// transform.position = startingPosition; // and save the modified value
-
-		// hp = current_hp;
+		// hp = max_hp;
 	}
 
-	private void playsound() {
-		instrument.clip = jumpSound;
+	private void playsound(int index) {
+		instrument.clip = jumpSound[index];
 		instrument.Play();
 	}
 
