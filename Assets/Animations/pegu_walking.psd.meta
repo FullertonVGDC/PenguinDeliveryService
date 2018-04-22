@@ -1,9 +1,17 @@
 fileFormatVersion: 2
 guid: 396cabeda3e55064eaa5385c467ea18c
-timeCreated: 1523656773
+timeCreated: 1524437421
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: pegu_walking_0
+    21300002: pegu_walking_1
+    21300004: pegu_walking_2
+    21300006: pegu_walking_3
+    21300008: pegu_walking_4
+    21300010: pegu_walking_5
+    21300012: pegu_walking_6
+    21300014: pegu_walking_7
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -84,7 +92,111 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: pegu_walking_0
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 474
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_1
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 474
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_2
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 474
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_3
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 474
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_4
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 166
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_5
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 166
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_6
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 166
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pegu_walking_7
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 166
+        width: 201
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 
