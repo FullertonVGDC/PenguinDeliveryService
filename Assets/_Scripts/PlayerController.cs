@@ -6,16 +6,16 @@ public class PlayerController : MonoBehaviour {
 	#region Data Member
 	
 	// bool dead = false;
-	bool isOnGround = false;
+	// public float slidespeed = 3;
 	//int current_hp = 100;
 	//int damage;
 	//int hp;
+	//public Collider2D playerCollider;
+	bool isOnGround = false;
 	public AudioClip[] sounds;
 	public AudioSource instrument;
-	public bool isDoubleJump = false;
-	//public Collider2D playerCollider;
-	public float jumpForce = 700;
-	// public float slidespeed = 3;
+	public bool isDoubleJump = true;
+	public float jumpForce = 600;
 	public float walkspeed = 10;
 	public GameObject playerObject;
 	
@@ -118,20 +118,22 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void Jump() {
-		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			if (isOnGround) {
-				isOnGround = false;
-				isDoubleJump = true; //Pegu can dbljump if he's on ground
-				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-				playsound(0);
-			}
-			if (isDoubleJump) {
-				isDoubleJump = false; //2 jumps only
-				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-				playsound(0);
-			}
-		}
-	}
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            if (isOnGround) {
+                isOnGround = false;
+                isDoubleJump = true;
+                rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+                playsound(1);
+            }
+            {
+                if (isDoubleJump) {
+                	isDoubleJump = false;
+                    rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+                    playsound(1);
+                }
+            }
+        }
+    }
 
 	private void respawn() {
 		Vector3 temp = transform.position; // copy to an auxiliary variable...
