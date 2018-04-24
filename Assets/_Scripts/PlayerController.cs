@@ -18,11 +18,19 @@ public class PlayerController : MonoBehaviour {
 	public float jumpForce = 600;
 	public float walkspeed = 10;
 	public GameObject playerObject;
-	
+
+	public bool hasDash = false;
+	bool dashing;
+	public int dashTimer = 15;
+	int dashCooldown = 60;
+	int dashLockDir;
+	public int dashForce = 100;
+	int lastDir;
+
 	Rigidbody2D rigid;
 	Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
-
-    Animator pegu;
+	private SpriteRenderer mySpriteRenderer;
+	Animator pegu;
 
 	#endregion
 
@@ -35,42 +43,36 @@ public class PlayerController : MonoBehaviour {
 
 	void Start() {
 		rigid = GetComponent<Rigidbody2D>(); // Get the rigidbody component added to the script and store it in rb
-        pegu = GetComponent<Animator>();
+		pegu = GetComponent<Animator>();
+		mySpriteRenderer = GetComponent<SpriteRenderer>();
 
 		//playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>();
-
 		// hp = current_hp;
-
 		// startingPosition = transform.position;
-		
 		// damage = 0;
 
 	}
 
 	void Update() {
+		spriteChanger();
 		// if (hp < 0) {
-		// 	respawn();
+		//  respawn();
 		// }
 
-
 		Walk();
-		//jump (press twice to double jump) with sound effect
-		Jump();
+		Jump();	 //jump (press twice to double jump) with sound effect
+		Dash();
 
 		if (rigid.velocity.y > 0) {
 			Debug.Log("pass through");
 			//note: ground tiles labelled PassThru are the only ones that can be jumped through with below code
 			Physics2D.IgnoreLayerCollision(11, 12, true);
 		}
-		//if player falls from jumping, player can land on the platform instead of falling through
-		else {
+		else { //if player falls from jumping, player can land on the platform instead of falling through
 			Physics2D.IgnoreLayerCollision(11, 12, false);
 		}
 
-		//slide (duck down and move left or right simultaneously) with momentum
-
-
-		//walk with sound effect
+		//walk with sound effects
 		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) {
 			// playsound(0);
 		}
@@ -78,6 +80,19 @@ public class PlayerController : MonoBehaviour {
 		// check if your character fell off the platform
 		if( transform.position.y < -20) {
 			respawn();
+		}
+
+		if (dashTimer > 0) {
+			dashTimer--;
+		}
+		if (dashCooldown > 0) {
+			dashCooldown--;
+		}
+		if (dashTimer == 0) {
+			dashing = false;
+		}
+		if (dashCooldown == 0 && isOnGround && !hasDash) {
+			hasDash = true;
 		}
 	}
 
@@ -100,40 +115,35 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private void OnTriggerEnter(Collider collision) {
-		
-	}
-
 	#endregion
 	#region Public Method
 	#endregion
 	#region Private Method
 
 	private void Walk() {
-        
 		float movement = Input.GetAxis("Horizontal") * walkspeed;
-        bool pressed = Input.GetButton("Horizontal");
+		bool pressed = Input.GetButton("Horizontal");
 		rigid.velocity = new Vector3(movement, rigid.velocity.y, 0);
-        pegu.SetBool("run", pressed);
+		pegu.SetBool("run", pressed);
 	}
 
 	private void Jump() {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            if (isOnGround) {
-                isOnGround = false;
-                isDoubleJump = true;
-                rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-                playsound(1);
-            }
-            {
-                if (isDoubleJump) {
-                	isDoubleJump = false;
-                    rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-                    playsound(1);
-                }
-            }
-        }
-    }
+		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+			if (isDoubleJump) {
+					isDoubleJump = false;
+					rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+					playsound(0);
+			}
+			if (isOnGround) {
+				isOnGround = false;
+				isDoubleJump = true;
+				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+				playsound(0);
+			}
+				
+
+		}
+	}
 
 	private void respawn() {
 		Vector3 temp = transform.position; // copy to an auxiliary variable...
@@ -143,6 +153,25 @@ public class PlayerController : MonoBehaviour {
 		// transform.position = startingPosition; // and save the modified value
 
 		// hp = current_hp;
+		dashTimer = 0;
+		dashCooldown = 0;
+		dashing = false;
+		hasDash = true;
+	}
+
+	private void Dash() {//dash in the direction you are facing
+		if (Input.GetKeyDown(KeyCode.LeftShift)) {
+			if (hasDash) {
+				dashing = true;
+				dashTimer = 15;
+				dashCooldown = 60;
+				hasDash = false;
+				dashLockDir = lastDir;
+			}
+		}
+		if (dashing) {
+			rigid.AddForce(new Vector3(dashTimer * dashTimer * dashForce * lastDir, 0, 0));
+		}
 	}
 
 	private void playsound(int index) {
@@ -150,6 +179,23 @@ public class PlayerController : MonoBehaviour {
 		instrument.Play();
 	}
 
+	private void spriteChanger() { // grabbed from spriteChanger.cs
+		if (mySpriteRenderer != null) {
+			//if left key is pressed
+			if (Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)) {
+				// flip the sprite
+				mySpriteRenderer.flipX = true;
+				lastDir = -1;
+			}
+			//if right key is pressed
+			else if (Input.GetKeyDown(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow)) {
+				// flip the sprite
+				mySpriteRenderer.flipX = false;
+				lastDir = 1;
+			}
+			//if down key is pressed
+		}
+	}
 	#endregion
 
 	
