@@ -24,7 +24,13 @@ public class MenuManager : MonoBehaviour {
             case 1:
                 SceneManager.LoadScene("LevelOneScene");
                 break;
-            default:
+			case 2:
+				SceneManager.LoadScene("AboutScene");
+				break;
+			case 3:
+				SceneManager.LoadScene("MainMenu");
+				break; 
+			default:
                 break;
         }
         
