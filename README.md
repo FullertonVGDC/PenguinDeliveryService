@@ -44,3 +44,6 @@ Delete unused branch
 
 ## Questions?
 If there are any questions, feel free to post in the Programming channel on Discord and a programming lead will help you.
+
+# Rules of Conduct
+Please be sure to read the Rules.PDF file to understand how the board expects all of our members to conduct themselves. Failure to abide by these rules may result in the board revoking your access to this GitHub Project and termination of club membership.
