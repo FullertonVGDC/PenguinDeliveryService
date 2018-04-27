@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip[] sounds;
 	public AudioSource instrument;
 	public bool isDoubleJump = true;
-	public float jumpForce = 600;
+	public float jumpForce = 20; //changed to 20 for sane jumping. This should be the default value in Editor
 	public float walkspeed = 10;
 	public GameObject playerObject;
 
@@ -52,13 +52,13 @@ public class PlayerController : MonoBehaviour {
 		// damage = 0;
 
 	}
+		
 
 	void Update() {
 		spriteChanger();
 		// if (hp < 0) {
 		//  respawn();
 		// }
-
 		Walk();
 		Jump();	 //jump (press twice to double jump) with sound effect
 		Dash();
@@ -128,20 +128,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void Jump() {
+		
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			if (isDoubleJump) {
-					isDoubleJump = false;
-					rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-					playsound(0);
+				isDoubleJump = false;
+				rigid.velocity = new Vector2(0, jumpForce); // an equal jump velocity is added on every jump
+				playsound(0);
 			}
 			if (isOnGround) {
 				isOnGround = false;
 				isDoubleJump = true;
-				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+				rigid.velocity = new Vector2(0, jumpForce);
 				playsound(0);
 			}
-				
-
 		}
 	}
 
