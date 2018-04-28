@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour {
 
 		// check if your character fell off the platform
 		if( transform.position.y < -20) {
+			playsound(1);
 			respawn();
 		}
 
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		
 		if (collision.gameObject.CompareTag("Enemy")){
+			playsound(1);
 			respawn();
 		}
 	}
