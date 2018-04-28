@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+ using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour {
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioClip[] sounds;
 	public AudioSource instrument;
 	public bool isDoubleJump = true;
-	public float jumpForce = 600;
+	public float jumpForce = 20; //changed to 20 for sane jumping. This should be the default value in Editor
 	public float walkspeed = 10;
 	public GameObject playerObject;
 
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour {
 	Vector3 startingPosition; // If we are too far underwater we will teleport player to starting position.
 	private SpriteRenderer mySpriteRenderer;
 	Animator pegu;
+
+	public Text winText;
+	public Text quit;
+	public GameObject quitButton;
 
 	#endregion
 
@@ -50,6 +55,10 @@ public class PlayerController : MonoBehaviour {
 		// hp = current_hp;
 		// startingPosition = transform.position;
 		// damage = 0;
+
+		winText.text = "";
+		quitButton.SetActive(false);
+		quit.text = "";
 
 	}
 
@@ -115,6 +124,13 @@ public class PlayerController : MonoBehaviour {
 			playsound(1);
 			respawn();
 		}
+
+		if (collision.gameObject.CompareTag("Finish")){
+			winText.text = "YOU'VE GOT MAIL";
+			playsound(2);
+			quit.text = "menu";
+			quitButton.SetActive(true);
+		}
 	}
 
 	#endregion
@@ -132,18 +148,16 @@ public class PlayerController : MonoBehaviour {
 	private void Jump() {
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			if (isDoubleJump) {
-					isDoubleJump = false;
-					rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
-					playsound(0);
+				isDoubleJump = false;
+				rigid.velocity = new Vector2(0, jumpForce); // an equal jump velocity is added on every jump
+				playsound(0);
 			}
 			if (isOnGround) {
 				isOnGround = false;
 				isDoubleJump = true;
-				rigid.AddForce(new Vector3(0, jumpForce, 0)); // Adds 100 force straight up, might need tweaking on that number
+				rigid.velocity = new Vector2(0, jumpForce);
 				playsound(0);
 			}
-				
-
 		}
 	}
 
